@@ -1,0 +1,9 @@
+.env
+.env.*
+*.pem
+*.ppk
+credentials
+__pycache__/
+*.pyc
+.venv/
+.DS_Store

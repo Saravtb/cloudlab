@@ -1,0 +1,14 @@
+.git
+.gitignore
+.env
+.env.*
+.aws
+__pycache__
+*.pyc
+*.log
+.venv
+venv
+credentials
+*.pem
+*.key
+README.md
