@@ -1,6 +1,0 @@
---- GET / ---
-{"service":"cloudlab-events","version":"1.0.0"}
---- GET /health ---
-{"status":"healthy","version":"1.0.0","timestamp":"2026-08-14T00:37:29.811372+00:00"}
---- POST /events ---
-{"id":"27a00622-0c4a-4929-a6c6-abb4dd266a86","status":"received"}

@@ -1,0 +1,66 @@
+Termo de cleanup - Projeto 1 AWS CloudLab
+Conta: <ACCOUNT_ID>   Regiao: us-east-1   Data: 14 de agosto de 2026
+
+Execucao de infra/cleanup.sh
+
+=== 1. Parando as tarefas ===
+Nenhuma tarefa em execucao.
+
+=== 2. Excluindo o cluster ===
+Cluster excluido.
+
+=== 3. Removendo as revisoes da Task Definition ===
+Nenhuma revisao encontrada.
+
+=== 4. Excluindo a instancia RDS ===
+Instancia cloudlab-db nao encontrada.
+
+=== 5. Excluindo o subnet group ===
+Subnet group nao encontrado.
+
+=== 6. Excluindo o segredo ===
+Segredo excluido.
+
+=== 7. Excluindo o repositorio do ECR ===
+Repositorio nao encontrado.
+
+=== 8. Excluindo os security groups ===
+cloudlab-db-sg: nao encontrado.
+cloudlab-sg: nao encontrado.
+
+=== 9. Excluindo o log group ===
+Atencao: isso apaga as evidencias de log. Salve o que precisar antes.
+Log group nao encontrado.
+
+=== 10. Inventario residual ===
+Clusters ECS:
+Repositorios ECR:
+Instancias RDS:
+Segredos:
+
+==========================================================
+ Limpeza concluida.
+ Confirme no Tag Editor se restou algum recurso cobrado.
+==========================================================
+
+NOTA
+Esta captura corresponde a uma segunda execucao do script, feita para
+registrar a evidencia. Por isso a maioria dos recursos aparece como
+"nao encontrado": eles ja haviam sido removidos na primeira execucao.
+O script e idempotente, ou seja, pode ser executado repetidamente sem
+erro. O que comprova o encerramento e o inventario residual do passo 10,
+que retornou vazio em todas as categorias: nenhum cluster ECS, nenhum
+repositorio ECR, nenhuma instancia RDS e nenhum segredo remanescente.
+
+RECURSOS REMOVIDOS AO LONGO DO PROJETO
+- Tarefas e cluster do Amazon ECS
+- Revisoes da task definition cloudlab-task
+- Instancia PostgreSQL cloudlab-db e seu subnet group
+- Segredo cloudlab/db no AWS Secrets Manager
+- Repositorio privado cloudlab-events no Amazon ECR
+- Security groups cloudlab-sg e cloudlab-db-sg
+- Log group /ecs/cloudlab no Amazon CloudWatch
+
+A instancia RDS foi excluida, e nao apenas parada, porque o ambiente do
+Learner Lab pode nao para-la ao encerrar a sessao e porque a AWS reinicia
+automaticamente instancias paradas apos sete dias.

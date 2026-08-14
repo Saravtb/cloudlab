@@ -1,2 +1,0 @@
-REPOSITORY        TAG       IMAGE ID       CREATED        SIZE
-cloudlab-events   v1        d990afe7aa4f   1 second ago   158MB
