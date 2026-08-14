@@ -1,0 +1,6 @@
+--- GET / ---
+
+--- GET /health ---
+
+--- POST /events ---
+
