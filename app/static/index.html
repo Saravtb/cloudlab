@@ -1,0 +1,252 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>CloudLab · painel de eventos</title>
+<style>
+  :root {
+    --bg: #f5f6f8;
+    --card: #ffffff;
+    --line: #dfe3e8;
+    --ink: #1f2933;
+    --muted: #6b7683;
+    --accent: #2f6f4f;
+    --danger: #a33a3a;
+  }
+  * { box-sizing: border-box; }
+  body {
+    margin: 0;
+    font-family: system-ui, -apple-system, "Segoe UI", Arial, sans-serif;
+    background: var(--bg);
+    color: var(--ink);
+    line-height: 1.5;
+  }
+  header {
+    background: var(--card);
+    border-bottom: 1px solid var(--line);
+    padding: 20px 24px;
+  }
+  header h1 { margin: 0; font-size: 20px; font-weight: 600; }
+  header p { margin: 4px 0 0; color: var(--muted); font-size: 14px; }
+  main {
+    max-width: 900px;
+    margin: 24px auto;
+    padding: 0 16px 48px;
+    display: grid;
+    gap: 20px;
+  }
+  .card {
+    background: var(--card);
+    border: 1px solid var(--line);
+    border-radius: 10px;
+    padding: 20px;
+  }
+  .card h2 { margin: 0 0 14px; font-size: 16px; font-weight: 600; }
+  label { display: block; font-size: 13px; color: var(--muted); margin-bottom: 4px; }
+  input, textarea {
+    width: 100%;
+    padding: 9px 11px;
+    border: 1px solid var(--line);
+    border-radius: 6px;
+    font: inherit;
+    font-size: 14px;
+    margin-bottom: 12px;
+    background: #fff;
+    color: var(--ink);
+  }
+  textarea { resize: vertical; min-height: 68px; }
+  button {
+    padding: 9px 18px;
+    border: 0;
+    border-radius: 6px;
+    background: var(--accent);
+    color: #fff;
+    font: inherit;
+    font-size: 14px;
+    cursor: pointer;
+  }
+  button:disabled { opacity: .55; cursor: not-allowed; }
+  button.ghost { background: transparent; color: var(--accent); border: 1px solid var(--line); }
+  .row { display: flex; align-items: center; justify-content: space-between; gap: 12px; }
+  .status { font-size: 13px; }
+  .pill {
+    display: inline-block;
+    padding: 3px 10px;
+    border-radius: 999px;
+    font-size: 12px;
+    border: 1px solid var(--line);
+    color: var(--muted);
+  }
+  .pill.ok { color: var(--accent); border-color: var(--accent); }
+  .pill.bad { color: var(--danger); border-color: var(--danger); }
+  table { width: 100%; border-collapse: collapse; font-size: 13px; }
+  th, td { text-align: left; padding: 9px 8px; border-bottom: 1px solid var(--line); vertical-align: top; }
+  th { color: var(--muted); font-weight: 500; }
+  td.id { font-family: ui-monospace, "Courier New", monospace; font-size: 12px; color: var(--muted); }
+  .empty { color: var(--muted); font-size: 14px; padding: 14px 0; }
+  .msg { font-size: 13px; margin-top: 10px; }
+  .msg.ok { color: var(--accent); }
+  .msg.bad { color: var(--danger); }
+</style>
+</head>
+<body>
+
+<header>
+  <h1>CloudLab · painel de eventos</h1>
+  <p>Projeto 1 — arquitetura de referência na AWS · Amazon ECS com AWS Fargate e Amazon RDS</p>
+</header>
+
+<main>
+
+  <section class="card">
+    <div class="row">
+      <h2 style="margin:0">Estado do serviço</h2>
+      <span class="pill" id="health-pill">verificando…</span>
+    </div>
+    <p class="status" id="health-detail" style="color:var(--muted);margin:10px 0 0">
+      Consultando <code>/health</code>…
+    </p>
+  </section>
+
+  <section class="card">
+    <h2>Enviar evento sintético</h2>
+
+    <label for="type">Tipo</label>
+    <input id="type" value="operation.created" maxlength="100">
+
+    <label for="source">Origem</label>
+    <input id="source" value="cloud-lab" maxlength="100">
+
+    <label for="message">Mensagem</label>
+    <textarea id="message" maxlength="500">Evento sintético para uso acadêmico</textarea>
+
+    <button id="send">Enviar evento</button>
+    <p class="msg" id="send-msg"></p>
+  </section>
+
+  <section class="card">
+    <div class="row">
+      <h2 style="margin:0">Eventos persistidos</h2>
+      <button class="ghost" id="reload">Atualizar</button>
+    </div>
+    <div id="list" style="margin-top:14px">
+      <p class="empty">Carregando…</p>
+    </div>
+  </section>
+
+</main>
+
+<script>
+const $ = (id) => document.getElementById(id);
+
+function fmt(ts) {
+  try { return new Date(ts).toLocaleString('pt-BR'); }
+  catch { return ts; }
+}
+
+async function loadHealth() {
+  const pill = $('health-pill');
+  const detail = $('health-detail');
+  try {
+    const r = await fetch('/health');
+    const d = await r.json();
+    const ok = d.status === 'healthy';
+    pill.textContent = ok ? 'saudável' : 'degradado';
+    pill.className = 'pill ' + (ok ? 'ok' : 'bad');
+    detail.textContent =
+      'versão ' + d.version + ' · banco: ' + d.database + ' · ' + fmt(d.timestamp) +
+      (d.database_error ? ' · ' + d.database_error : '');
+  } catch (e) {
+    pill.textContent = 'sem resposta';
+    pill.className = 'pill bad';
+    detail.textContent = 'Não foi possível consultar /health.';
+  }
+}
+
+async function loadEvents() {
+  const box = $('list');
+  try {
+    const r = await fetch('/events?limit=50');
+    if (r.status === 503) {
+      box.innerHTML = '<p class="empty">Banco de dados indisponível. Veja o estado do serviço acima.</p>';
+      return;
+    }
+    const rows = await r.json();
+    if (!rows.length) {
+      box.innerHTML = '<p class="empty">Nenhum evento registrado ainda.</p>';
+      return;
+    }
+    box.innerHTML =
+      '<table><thead><tr><th>Recebido em</th><th>Tipo</th><th>Origem</th><th>Mensagem</th><th>Identificador</th></tr></thead><tbody>' +
+      rows.map(e =>
+        '<tr><td>' + fmt(e.received_at) + '</td><td>' + esc(e.type) + '</td><td>' +
+        esc(e.source) + '</td><td>' + esc(e.message) + '</td><td class="id">' +
+        e.id.slice(0, 8) + '…</td></tr>'
+      ).join('') + '</tbody></table>';
+  } catch (e) {
+    box.innerHTML = '<p class="empty">Falha ao carregar os eventos.</p>';
+  }
+}
+
+function esc(s) {
+  return String(s).replace(/[&<>"']/g, c =>
+    ({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c]));
+}
+
+async function send() {
+  const btn = $('send');
+  const msg = $('send-msg');
+  const body = {
+    type: $('type').value.trim(),
+    source: $('source').value.trim(),
+    message: $('message').value.trim(),
+  };
+
+  if (!body.type || !body.source || !body.message) {
+    msg.className = 'msg bad';
+    msg.textContent = 'Preencha tipo, origem e mensagem antes de enviar.';
+    return;
+  }
+
+  btn.disabled = true;
+  msg.className = 'msg';
+  msg.textContent = 'Enviando…';
+
+  try {
+    const r = await fetch('/events', {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify(body),
+    });
+    const d = await r.json();
+    if (r.ok) {
+      msg.className = 'msg ok';
+      msg.textContent = 'Evento registrado com identificador ' + d.id;
+      await loadEvents();
+    } else {
+      msg.className = 'msg bad';
+      msg.textContent = 'Erro ' + r.status + ': ' + (d.detail || 'requisição recusada');
+    }
+  } catch (e) {
+    msg.className = 'msg bad';
+    msg.textContent = 'Falha de rede ao enviar o evento.';
+  } finally {
+    btn.disabled = false;
+  }
+}
+
+$('send').addEventListener('click', send);
+$('reload').addEventListener('click', loadEvents);
+
+['type', 'source', 'message'].forEach(id =>
+  $(id).addEventListener('input', () => { $('send-msg').textContent = ''; })
+);
+
+loadHealth();
+loadEvents();
+setInterval(loadHealth, 15000);
+</script>
+
+</body>
+</html>
