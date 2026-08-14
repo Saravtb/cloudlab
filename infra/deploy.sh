@@ -1,6 +1,6 @@
 #!/usr/bin/env bash
 #
-# Projeto 1 - AWS CloudLab - incremento v1.1
+# Projeto 1 - AWS CloudLab - incremento v1.2
 # Implantacao do workload com persistencia no Amazon RDS.
 #
 # Pre-requisito: ./01-create-rds.sh executado com sucesso.
@@ -137,7 +137,7 @@ cat > /tmp/task-definition.json <<JSON
       ],
       "environment": [
         { "name": "SERVICE_NAME", "value": "${PROJECT}-events" },
-        { "name": "SERVICE_VERSION", "value": "1.1.0" }
+        { "name": "SERVICE_VERSION", "value": "1.2.0" }
       ],
       "secrets": [
         { "name": "DB_SECRET", "valueFrom": "${SECRET_ARN}" }
@@ -224,7 +224,7 @@ sleep 20
 
 echo
 echo "=========================================================="
-echo " Implantacao v1.1 concluida"
+echo " Implantacao v1.2 concluida"
 echo "=========================================================="
 echo " Imagem  : ${ECR_URI}:${IMAGE_TAG}"
 echo " Digest  : ${IMAGE_DIGEST}"

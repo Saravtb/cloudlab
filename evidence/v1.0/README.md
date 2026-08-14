@@ -27,17 +27,12 @@ desnecessários da conta.
 | `10a-security-groups-lista.png` | Security group `cloudlab-sg` criado na VPC padrão. |
 | `10b-security-group-regras.png` | Regras de entrada: apenas TCP 8000, origens `/32`, sem `0.0.0.0/0` e sem portas administrativas. |
 
-## Arquivos de texto correspondentes
-
-Os arquivos `01` a `06` em formato `.txt` estão versionados em `/evidence`
-e contêm a saída completa dos comandos, já mascarada.
-
 ## Termo de cleanup
 
-A remoção dos recursos está registrada em `11-cleanup.txt`: task parada,
-cluster excluído, revisões da task definition removidas, repositório ECR
-excluído, security group excluído e log group excluído. O inventário
-residual retornou vazio.
+Os recursos desta versão foram removidos ao final da sessão de 13 de agosto,
+com inventário residual vazio. O termo de remoção consolidado do projeto,
+correspondente à última execução do `cleanup.sh`, está em
+`evidence/v1.1/25-cleanup.txt`.
 
 ## Observação operacional
 
