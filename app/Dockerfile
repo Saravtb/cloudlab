@@ -1,7 +1,7 @@
 FROM public.ecr.aws/docker/library/python:3.12-slim
 
 LABEL org.opencontainers.image.title="cloudlab-events"
-LABEL org.opencontainers.image.version="1.1.0"
+LABEL org.opencontainers.image.version="1.2.0"
 LABEL org.opencontainers.image.description="Workload do Projeto 1 - AWS CloudLab"
 
 ENV PYTHONDONTWRITEBYTECODE=1 \

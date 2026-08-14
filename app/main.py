@@ -32,7 +32,7 @@ from psycopg_pool import ConnectionPool
 from pydantic import BaseModel, Field
 
 SERVICE_NAME = os.getenv("SERVICE_NAME", "cloudlab-events")
-SERVICE_VERSION = os.getenv("SERVICE_VERSION", "1.1.0")
+SERVICE_VERSION = os.getenv("SERVICE_VERSION", "1.2.0")
 STATIC_DIR = Path(__file__).parent / "static"
 
 
@@ -90,13 +90,17 @@ def build_conninfo():
     if not host:
         return None
 
+    # keepalives: detectam conexao TCP meio-aberta quando o banco cai.
+    # statement_timeout: impede que uma consulta fique pendurada para sempre.
     return (
         f"host={host} "
         f"port={data.get('port', '5432')} "
         f"dbname={data.get('dbname', 'cloudlab')} "
         f"user={data.get('username')} "
         f"password={data.get('password')} "
-        f"connect_timeout=5"
+        f"connect_timeout=5 "
+        f"keepalives=1 keepalives_idle=10 keepalives_interval=5 keepalives_count=3 "
+        f"options='-c statement_timeout=5000'"
     )
 
 
@@ -113,19 +117,34 @@ CREATE TABLE IF NOT EXISTS events (
 
 
 class Database:
-    """Pool de conexoes com inicializacao tolerante a falha."""
+    """Pool de conexoes com inicializacao tolerante a falha e sonda ativa."""
 
     def __init__(self):
         self.pool = None
         self.ready = False
         self.last_error = None
+        self._conninfo = None
+        self._lock = threading.Lock()
 
     def start(self):
+        self._conninfo = build_conninfo()
         threading.Thread(target=self._connect_with_retry, daemon=True).start()
 
+    def _open_pool(self):
+        pool = ConnectionPool(
+            self._conninfo,
+            min_size=1,
+            max_size=5,
+            timeout=5,
+            check=ConnectionPool.check_connection,
+            open=True,
+        )
+        with pool.connection() as conn:
+            conn.execute(DDL)
+        return pool
+
     def _connect_with_retry(self):
-        conninfo = build_conninfo()
-        if not conninfo:
+        if not self._conninfo:
             self.last_error = "credenciais do banco nao configuradas"
             logger.error("banco nao configurado; aplicacao seguira degradada")
             return
@@ -133,12 +152,11 @@ class Database:
         delay = 2
         for attempt in range(1, 8):
             try:
-                pool = ConnectionPool(conninfo, min_size=1, max_size=5, open=True)
-                with pool.connection() as conn:
-                    conn.execute(DDL)
-                self.pool = pool
-                self.ready = True
-                self.last_error = None
+                pool = self._open_pool()
+                with self._lock:
+                    self.pool = pool
+                    self.ready = True
+                    self.last_error = None
                 logger.info(f"banco conectado e tabela verificada na tentativa {attempt}")
                 return
             except Exception as exc:
@@ -149,6 +167,33 @@ class Database:
 
         logger.error("banco inacessivel apos as tentativas; aplicacao seguira degradada")
 
+    def probe(self):
+        """Verifica a conexao de fato. Usada por /health.
+
+        Se o banco caiu depois da inicializacao, marca o estado como degradado
+        e dispara uma nova rodada de reconexao em segundo plano.
+        """
+        if self.pool is None:
+            return False
+        try:
+            with self.pool.connection() as conn:
+                conn.execute("SELECT 1")
+            if not self.ready:
+                with self._lock:
+                    self.ready = True
+                    self.last_error = None
+                logger.info("banco voltou a responder")
+            return True
+        except Exception as exc:
+            was_ready = self.ready
+            with self._lock:
+                self.ready = False
+                self.last_error = str(exc).splitlines()[0][:200]
+            if was_ready:
+                logger.error(f"banco deixou de responder: {self.last_error}")
+                threading.Thread(target=self._connect_with_retry, daemon=True).start()
+            return False
+
     @contextmanager
     def connection(self):
         if not self.ready or self.pool is None:
@@ -156,8 +201,20 @@ class Database:
                 status_code=503,
                 detail="Banco de dados indisponivel. Consulte /health.",
             )
-        with self.pool.connection() as conn:
-            yield conn
+        try:
+            with self.pool.connection() as conn:
+                yield conn
+        except HTTPException:
+            raise
+        except Exception as exc:
+            with self._lock:
+                self.ready = False
+                self.last_error = str(exc).splitlines()[0][:200]
+            logger.error(f"falha ao usar a conexao: {self.last_error}")
+            raise HTTPException(
+                status_code=503,
+                detail="Banco de dados indisponivel. Consulte /health.",
+            )
 
 
 db = Database()
@@ -211,6 +268,7 @@ def api_root():
 
 @app.get("/health")
 def health():
+    db.probe()
     body = {
         "status": "healthy" if db.ready else "degraded",
         "version": SERVICE_VERSION,
