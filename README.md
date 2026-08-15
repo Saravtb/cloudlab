@@ -1,4 +1,4 @@
-# Projeto 1 — AWS CloudLab
+# Projeto 1 - AWS CloudLab
 
 Arquitetura e operação de um workload de referência na AWS.
 
