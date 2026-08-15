@@ -1,5 +1,5 @@
 # Diário de Bordo
-### PROJETO 1 — AWS CLOUDLAB
+### PROJETO 1 - AWS CLOUDLAB
 
 **Preparado por:**
 Laura Mendes Teixeira
