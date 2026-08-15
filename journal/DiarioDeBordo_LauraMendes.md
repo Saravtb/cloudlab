@@ -6,7 +6,7 @@ Laura Mendes Teixeira
 
 ---
 
-## Etapa 1 — Estruturando o projeto em pastas
+## Etapa 1 - Estruturando o projeto em pastas
 
 Criei a pasta raiz do projeto, Pay, e organizei ele em duas subpastas principais: backend e frontend. A ideia desde o início era separar claramente a lógica do servidor da interface do usuário.
 
@@ -14,7 +14,7 @@ Separar backend e frontend em pastas distintas facilita muito depois, cada parte
 
 ---
 
-## Etapa 2 — Criando o backend do zero
+## Etapa 2 - Criando o backend do zero
 
 No terminal, entrei na pasta com cd backend. De lá, criei o primeiro arquivo do projeto: o requirements.txt, direto pelo VS Code (botão direito na pasta backend - New File), e escrevi dentro dele a dependência fastapi[standard].
 
@@ -22,19 +22,19 @@ Entendi o papel do requirements.txt: é a lista de dependências Python do proje
 
 ---
 
-## Etapa 3 — Frontend do sistema
+## Etapa 3 - Frontend do sistema
 
 Criei a pasta frontend, com HTML, CSS e JavaScript, para dar uma interface visual ao sistema de pagamentos.
 
 ---
 
-## Etapa 4 — Conectando o banco de dados PostgreSQL
+## Etapa 4 - Conectando o banco de dados PostgreSQL
 
 Configurei o PostgreSQL como banco de dados do backend, ainda rodando localmente na minha máquina, para guardar as informações do sistema de pagamentos.
 
 ---
 
-## Etapa 5 — Publicando no GitHub
+## Etapa 5 - Publicando no GitHub
 
 Depois que o sistema estava rodando localmente, criei o repositório no meu GitHub e publiquei o código do Pay lá.
 
@@ -42,7 +42,7 @@ Publicar cedo no GitHub, mesmo ainda em desenvolvimento local, ajuda a ter um hi
 
 ---
 
-## Etapa 6 — Testando no VirtualBox com Docker
+## Etapa 6 - Testando no VirtualBox com Docker
 
 Todos os integrantes do grupo configuraram um container Docker dentro do VirtualBox, e rodei o Pay ali, num ambiente separado da minha máquina.
 
@@ -50,7 +50,7 @@ Testar num ambiente isolado (VirtualBox + Docker) mostra se o sistema realmente 
 
 ---
 
-## Etapa 7 — Confrontando o sistema completo com os recursos da AWS
+## Etapa 7 - Confrontando o sistema completo com os recursos da AWS
 
 Ao testar os recursos que o grupo ia usar na AWS (ECS/Fargate, RDS), vi que o sistema completo do Pay, com frontend elaborado e várias funcionalidades de backend, era robusto demais para o escopo do projeto CloudLab.
 
