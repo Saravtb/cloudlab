@@ -29,9 +29,17 @@ Entendi o papel do requirements.txt: é a lista de dependências Python do proje
 
 Criei a pasta frontend, com HTML, CSS e JavaScript, para dar uma interface visual ao sistema de pagamentos.
 
+- Tela dos pagamentos registrados:
+
 <img width="500" alt="Captura de tela 2026-08-14 203055" src="https://github.com/user-attachments/assets/70f2e14a-3a59-4b56-a9c7-a74daf26c4f0" />
 
+- Exemplo de pagamento:
 
+<img width="550" alt="Captura de tela 2026-08-14 202410" src="https://github.com/user-attachments/assets/c9ea8840-cf53-4c48-80dc-fb8bf07536d4" />
+
+- Inserindo código PIX:
+
+<img width="550" alt="Captura de tela 2026-08-14 202419" src="https://github.com/user-attachments/assets/807b1ee2-d910-46d1-8394-8bd92272ebae" />
 
 ---
 
