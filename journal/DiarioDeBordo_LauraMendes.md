@@ -72,3 +72,7 @@ Testar num ambiente isolado (VirtualBox + Docker) mostra se o sistema realmente 
 Ao testar os recursos que o grupo ia usar na AWS (ECS/Fargate, RDS), vi que o sistema completo do Pay, com frontend elaborado e várias funcionalidades de backend, era robusto demais para o escopo do projeto CloudLab.
 
 A decisão de arquitetura depende do que o projeto realmente precisa entregar, não de quão completo o sistema é capaz de ser. O Pay tinha muito mais funcionalidade do que a disciplina de Pentesting em Nuvem pedia. Por isso, decidimos simplificar, cortando o frontend elaborado e parte do backend, para que o sistema se alinhasse aos recursos que seriam efetivamente usados na AWS, dando origem ao CloudLab.
+
+- Visão geral do projeto no GitHub:
+<img width="700" alt="Captura de tela 2026-08-14 212549" src="https://github.com/user-attachments/assets/0285ffc5-596f-47f8-acbf-ab38cba586d9" />
+
