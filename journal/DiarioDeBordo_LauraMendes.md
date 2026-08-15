@@ -12,7 +12,7 @@ Criei a pasta raiz do projeto, Pay, e organizei ele em duas subpastas principais
 
 Separar backend e frontend em pastas distintas facilita muito depois, cada parte pode ser desenvolvida, testada e (mais pra frente) containerizada de forma independente, sem uma bagunçar o código da outra.
 
-<img width="400" alt="Captura de tela 2026-08-14 212601" src="https://github.com/user-attachments/assets/1778de8b-050a-4c69-a9f4-4ca13ce4d0fc" />
+<img width="470" alt="Captura de tela 2026-08-14 212601" src="https://github.com/user-attachments/assets/1778de8b-050a-4c69-a9f4-4ca13ce4d0fc" />
 
 
 ---
