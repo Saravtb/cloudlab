@@ -35,11 +35,11 @@ Criei a pasta frontend, com HTML, CSS e JavaScript, para dar uma interface visua
 
 - Exemplo de pagamento:
 
-<img width="400" alt="Captura de tela 2026-08-14 202410" src="https://github.com/user-attachments/assets/c9ea8840-cf53-4c48-80dc-fb8bf07536d4" />
+<img width="300" alt="Captura de tela 2026-08-14 202410" src="https://github.com/user-attachments/assets/c9ea8840-cf53-4c48-80dc-fb8bf07536d4" />
 
 - Inserindo código PIX:
 
-<img width="400" alt="Captura de tela 2026-08-14 202419" src="https://github.com/user-attachments/assets/807b1ee2-d910-46d1-8394-8bd92272ebae" />
+<img width="300" alt="Captura de tela 2026-08-14 202419" src="https://github.com/user-attachments/assets/807b1ee2-d910-46d1-8394-8bd92272ebae" />
 
 ---
 
