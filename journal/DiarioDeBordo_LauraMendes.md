@@ -29,7 +29,7 @@ Entendi o papel do requirements.txt: é a lista de dependências Python do proje
 
 Criei a pasta frontend, com HTML, CSS e JavaScript, para dar uma interface visual ao sistema de pagamentos.
 
-<img width="485" alt="Captura de tela 2026-08-14 203055" src="https://github.com/user-attachments/assets/70f2e14a-3a59-4b56-a9c7-a74daf26c4f0" />
+<img width="500" alt="Captura de tela 2026-08-14 203055" src="https://github.com/user-attachments/assets/70f2e14a-3a59-4b56-a9c7-a74daf26c4f0" />
 
 
 
