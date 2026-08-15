@@ -12,7 +12,7 @@ Criei a pasta raiz do projeto, Pay, e organizei ele em duas subpastas principais
 
 Separar backend e frontend em pastas distintas facilita muito depois, cada parte pode ser desenvolvida, testada e (mais pra frente) containerizada de forma independente, sem uma bagunçar o código da outra.
 
-<img width="1098" height="730" alt="Captura de tela 2026-08-14 212601" src="https://github.com/user-attachments/assets/1778de8b-050a-4c69-a9f4-4ca13ce4d0fc" />
+<img width="500" alt="Captura de tela 2026-08-14 212601" src="https://github.com/user-attachments/assets/1778de8b-050a-4c69-a9f4-4ca13ce4d0fc" />
 
 
 ---
@@ -28,6 +28,10 @@ Entendi o papel do requirements.txt: é a lista de dependências Python do proje
 ## Etapa 3 - Frontend do sistema
 
 Criei a pasta frontend, com HTML, CSS e JavaScript, para dar uma interface visual ao sistema de pagamentos.
+
+<img width="1915" height="559" alt="Captura de tela 2026-08-14 203055" src="https://github.com/user-attachments/assets/70f2e14a-3a59-4b56-a9c7-a74daf26c4f0" />
+
+
 
 ---
 
