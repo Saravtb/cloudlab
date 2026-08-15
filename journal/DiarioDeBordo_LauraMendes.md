@@ -29,17 +29,19 @@ Entendi o papel do requirements.txt: é a lista de dependências Python do proje
 
 Criei a pasta frontend, com HTML, CSS e JavaScript, para dar uma interface visual ao sistema de pagamentos.
 
-- Tela dos pagamentos registrados:
+<table>
+  <tr>
+    <td align="center">
+      <b>Exemplo de pagamento:</b><br>
+      <img width="250" alt="Captura de tela 2026-08-14 202410" src="https://github.com/user-attachments/assets/c9ea8840-cf53-4c48-80dc-fb8bf07536d4" />
+    </td>
+    <td align="center">
+      <b>Inserindo código PIX:</b><br>
+      <img width="250" alt="Captura de tela 2026-08-14 202419" src="https://github.com/user-attachments/assets/807b1ee2-d910-46d1-8394-8bd92272ebae" />
+    </td>
+  </tr>
+</table>
 
-<img width="500" alt="Captura de tela 2026-08-14 203055" src="https://github.com/user-attachments/assets/70f2e14a-3a59-4b56-a9c7-a74daf26c4f0" />
-
-- Exemplo de pagamento:
-
-<img width="300" alt="Captura de tela 2026-08-14 202410" src="https://github.com/user-attachments/assets/c9ea8840-cf53-4c48-80dc-fb8bf07536d4" />
-
-- Inserindo código PIX:
-
-<img width="300" alt="Captura de tela 2026-08-14 202419" src="https://github.com/user-attachments/assets/807b1ee2-d910-46d1-8394-8bd92272ebae" />
 
 ---
 
@@ -65,7 +67,7 @@ Testar num ambiente isolado (VirtualBox + Docker) mostra se o sistema realmente 
 
 ---
 
-## Etapa 7 - Confrontando o sistema completo com os recursos da AWS
+## Etapa 7 - Sistema completo com os recursos da AWS
 
 Ao testar os recursos que o grupo ia usar na AWS (ECS/Fargate, RDS), vi que o sistema completo do Pay, com frontend elaborado e várias funcionalidades de backend, era robusto demais para o escopo do projeto CloudLab.
 
